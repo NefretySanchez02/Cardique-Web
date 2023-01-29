@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1405" height="714" viewBox="0 0 1405 714">
+  <defs>
+    <clipPath id="clip-path">
+      <rect id="Rectángulo_1577" data-name="Rectángulo 1577" width="1405" height="714" transform="translate(258 2300)" fill="#399ed8"/>
+    </clipPath>
+  </defs>
+  <g id="Enmascarar_grupo_2" data-name="Enmascarar grupo 2" transform="translate(-258 -2300)" clip-path="url(#clip-path)">
+    <g id="Grupo_2601" data-name="Grupo 2601">
+      <g id="Elipse_77" data-name="Elipse 77" transform="translate(854 2194)" fill="none" stroke="#00e2ff" stroke-width="2">
+        <circle cx="106" cy="106" r="106" stroke="none"/>
+        <circle cx="106" cy="106" r="105" fill="none"/>
+      </g>
+      <g id="Elipse_78" data-name="Elipse 78" transform="translate(779 2119)" fill="none" stroke="#00e2ff" stroke-width="2" opacity="0.5">
+        <circle cx="181" cy="181" r="181" stroke="none"/>
+        <circle cx="181" cy="181" r="180" fill="none"/>
+      </g>
+      <g id="Elipse_79" data-name="Elipse 79" transform="translate(693 2033)" fill="none" stroke="#00e2ff" stroke-width="2" opacity="0.4">
+        <circle cx="267" cy="267" r="267" stroke="none"/>
+        <circle cx="267" cy="267" r="266" fill="none"/>
+      </g>
+      <g id="Elipse_80" data-name="Elipse 80" transform="translate(583 1923)" fill="none" stroke="#00e2ff" stroke-width="2" opacity="0.3">
+        <circle cx="377" cy="377" r="377" stroke="none"/>
+        <circle cx="377" cy="377" r="376" fill="none"/>
+      </g>
+      <g id="Elipse_81" data-name="Elipse 81" transform="translate(466 1806)" fill="none" stroke="#00e2ff" stroke-width="2" opacity="0.2">
+        <circle cx="494" cy="494" r="494" stroke="none"/>
+        <circle cx="494" cy="494" r="493" fill="none"/>
+      </g>
+      <g id="Elipse_82" data-name="Elipse 82" transform="translate(311 1651)" fill="none" stroke="#00e2ff" stroke-width="2" opacity="0.1">
+        <circle cx="649" cy="649" r="649" stroke="none"/>
+        <circle cx="649" cy="649" r="648" fill="none"/>
+      </g>
+    </g>
+  </g>
+</svg>
