@@ -1886,12 +1886,6 @@
   .shop-sidebar .advice-box {
     width: 100%;
   }
-  .shop-section.directory-section::before {
-    height: 20px;
-    border-bottom: 20px solid #00b4cb;
-    left: 45%;
-    margin-top: -17px;
-  }
   .shop-section .float-image-shop {
     display: none;
   }
