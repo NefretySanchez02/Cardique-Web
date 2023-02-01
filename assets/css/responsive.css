@@ -1918,7 +1918,13 @@
   .banner-section.documents-banner-section
     .documents-block-float
     .block-float-1 {
-    top: 62%;
+    top: 60%;
+  }
+  .banner-section.documents-banner-section .banner-container{
+    padding-top: 120px;
+  }
+  .banner-section.documents-banner-section .banner-container .content-box h1{
+    margin-bottom: 0;
   }
   .contact-section.contact-form-section
     .form-inner
