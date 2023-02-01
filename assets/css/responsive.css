@@ -798,12 +798,6 @@
     width: 50%;
     margin-top: 20px;
   }
-  .banner-section.about-banner-section
-    .project-block-one.small-block
-    .inner-box {
-    max-width: 100%;
-    height: 170px;
-  }
   .banner-section.about-banner-section .project-block-one .inner-box.big-block {
     height: 210px;
   }
@@ -1250,24 +1244,20 @@
     width: 60%;
   }
   .about-section.documents-section .pattern-layer {
-    margin: 0px;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: -webkit-fill-available;
+    display: none;
   }
   .shop-section .pattern-layer {
-    margin: 0px;
-    left: 0%;
+    display: none;
   }
   .shop-section.directory-section::before {
-    width: 40px;
-    height: 24px;
-    border-bottom: 24px solid #00b4cb;
-    left: 45.5%;
-    top: 0;
-    margin-left: 0;
-    margin-top: -20px;
+    border-bottom: none;
+  }
+  .shop-section .float-image-shop{
+    display: none;
+  }
+
+  .banner-section.documents-banner-section .documents-block-float .documents-float-text{
+    display: none;
   }
 
   .chooseus-section.noticies-section {
@@ -1432,6 +1422,10 @@
   .shop-page-section.directory-page-section .map-section svg {
     width: 400px !important;
     height: 400px !important;
+  }
+  .shop-section.directory-section .directory-block .directory-item svg{
+    height: 600px;
+    margin-top: 0;
   }
 }
 
@@ -1686,12 +1680,14 @@
     .news-block-float
     .deco-items-float.thumbnail_2 {
     right: -15%;
+    bottom: 20px;
   }
   .banner-section.news-banner-section
     .news-block-float
     .deco-items-float.thumbnail_3 {
-    top: 50%;
-    right: -1%;
+      top: unset;
+      right: -1%;
+      bottom: 120px;
   }
   .banner-section.news-banner-section .banner-container .content-box h1 {
     margin-bottom: 0px;
@@ -1777,6 +1773,13 @@
 
   .shop-page-section.directory-page-section .download-pdf {
     display: none;
+  }
+
+  .banner-section.about-banner-section
+    .project-block-one.small-block
+    .inner-box {
+    max-width: 100%;
+    height: 170px;
   }
 }
 
@@ -1933,6 +1936,13 @@
   .shop-page-section.directory-page-section .dropdown.dropdown-map {
     margin-right: 20px;
   }
+  .shop-section.directory-section .directory-block .directory-item svg{
+    height: 500px;
+    margin-top: 0;
+  }
+  .banner-section.news-banner-section .banner-container {
+    padding-top: 120px;
+}
 }
 
 @media only screen and (max-width: 330px) {
@@ -2050,5 +2060,9 @@
   }
   .shop-page-section.directory-page-section .dropdown.dropdown-map {
     margin-right: 0px;
+  }
+  .shop-section.directory-section .directory-block .directory-item svg{
+    height: 400px;
+    margin-top: 0;
   }
 }
