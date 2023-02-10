@@ -4155,20 +4155,19 @@ div#mCSB_1_container {
   text-align: center;
 }
 
-.news-section.documents-news-section .text p{
- font-size: 16px;
- font-family: "LatoMedium";
- line-height: 18px;
- color: #707070;
+.news-section.documents-news-section .text p {
+  font-size: 16px;
+  font-family: "LatoMedium";
+  line-height: 18px;
+  color: #707070;
 }
 
-.news-section.documents-news-section .text a{
+.news-section.documents-news-section .text a {
   font-size: 16px;
   font-family: "LatoBlack";
   line-height: 18px;
-  color: #76B835;
- }
- 
+  color: #76b835;
+}
 
 .news-section .inner-container {
   position: relative;
@@ -7541,14 +7540,14 @@ div#mCSB_1_container {
   margin-bottom: -70px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory{
-  background: #FFFFFF;
-  padding:75px 50px 50px;
+.shop-page-section.directory-page-section .map-section .view-directory {
+  background: #ffffff;
+  padding: 75px 50px 50px;
   border-radius: 30px;
   display: none;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .title{
+.shop-page-section.directory-page-section .map-section .view-directory .title {
   display: inline-flex;
   align-items: center;
 }
@@ -7559,17 +7558,20 @@ div#mCSB_1_container {
   color: #070707;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .title h2 {
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .title
+  h2 {
   margin-left: 20px;
 }
-
 
 .shop-page-section.directory-page-section .map-section .view-directory .text {
   margin-top: 20px;
   margin-bottom: 50px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory  p {
+.shop-page-section.directory-page-section .map-section .view-directory p {
   font-family: "LatoRegular";
   font-size: 24px;
   color: #070707;
@@ -7579,77 +7581,137 @@ div#mCSB_1_container {
   margin-bottom: 15px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .clasify {
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .clasify {
   float: right;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .clasify p{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .clasify
+  p {
   display: inline-block;
   font-family: "LatoBlack";
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .clasify span{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .clasify
+  span {
   margin-left: 5px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .clasify span img{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .clasify
+  span
+  img {
   margin-top: -10px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .services{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .services {
   margin-top: 50px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .services-images{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .services-images {
   display: inline-flex;
   margin-top: 20px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .service-block-img{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .service-block-img {
   width: 260px;
   height: 280px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   border-radius: 20px;
   margin-left: 30px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .service-block-img:first-child{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .service-block-img:first-child {
   margin-left: 0px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer {
   margin-top: 20px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .links-block{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .links-block {
   font-size: 30px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .links-block .facebook{
- color: #004EFF
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .links-block
+  .facebook {
+  color: #004eff;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .links-block .instagram i{
-  background: #FF00A7;
-  color: #FFFFFF;
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .links-block
+  .instagram
+  i {
+  background: #ff00a7;
+  color: #ffffff;
   border-radius: 5px;
   padding: 2px;
   font-size: 25px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .links-block .whatsapp i{
-  background: #1EC759;
-  color: #FFFFFF;
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .links-block
+  .whatsapp
+  i {
+  background: #1ec759;
+  color: #ffffff;
   border-radius: 5px;
   padding: 2px;
   font-size: 25px;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .theme-btn-one{
-  background: #76B835;
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .theme-btn-one {
+  background: #76b835;
 }
 
-.shop-page-section.directory-page-section .map-section .view-directory .directory-footer .link-products{
+.shop-page-section.directory-page-section
+  .map-section
+  .view-directory
+  .directory-footer
+  .link-products {
   text-align: end;
 }
 
@@ -8433,6 +8495,10 @@ div#mCSB_1_container {
   font-weight: 700;
   margin-bottom: 8px;
   color: #250f15;
+}
+
+.contact-section .form-inner .default-form .form-group label.error {
+  display: none;
 }
 
 .contact-section .form-inner {

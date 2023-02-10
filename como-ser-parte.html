@@ -228,21 +228,22 @@
           <div class="form-inner">
             <form
               method="post"
-              action="sendemail.php"
-              id="contact-form"
+              action="sendmail.php"
+              id="ser-parte-form"
               class="default-form"
+              enctype="multipart/form-data"
             >
               <div class="sec-title">
                 <h2>DATOS DEL EMPRENDEDOR (A)</h2>
               </div>
               <div class="form-group">
                 <label>Nombre y apellido *</label>
-                <input type="text" name="username" required="" />
+                <input type="text" name="name" required="" />
               </div>
               <div class="form-group">
                 <label>Tipo de documento de identidad *</label>
                 <select required="" name="type_document">
-                  <option selected>Tipo</option>
+                  <option selected value="">Tipo</option>
                   <option value="cc">Cedula</option>
                   <option value="nit">NIT</option>
                   <option value="cc_ext">Cedula extranjera</option>
@@ -280,15 +281,15 @@
               <div class="row clearfix">
                 <div class="col-lg-4 col-md-4 col-sm-12 form-group">
                   <label>Facebook</label>
-                  <input type="text" name="municipio" />
+                  <input type="text" name="facebook" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 form-group">
                   <label>Instagram</label>
-                  <input type="text" name="municipio" />
+                  <input type="text" name="instragram" />
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 form-group">
                   <label>Página web</label>
-                  <input type="text" name="municipio" />
+                  <input type="text" name="page_web" />
                 </div>
               </div>
               <div class="text">
@@ -324,11 +325,23 @@
                 <span class="btn-file" onclick="importData()"
                   >Adjuntar documento</span
                 ><span class="name-file" id="name-file"></span>
-                <!-- <input type="file" name="files_products" required="" /> -->
+                <input
+                  type="file"
+                  name="files_products"
+                  id="file_input"
+                  required=""
+                  style="display: none"
+                />
+                <label for="estado_proyecto" class="error"
+                  >Debe Seleccionar una casilla</label
+                >
               </div>
               <div class="form-group">
                 <label class="label-items"
                   >ESTADO DE LA IDEA Y/O PROYECTO *</label
+                >
+                <label for="estado_proyecto" class="error"
+                  >Debe Seleccionar una casilla</label
                 >
               </div>
               <div class="form-group text-items">
@@ -405,6 +418,9 @@
                 <label class="label-items"
                   >CATEGORÍA DE SU IDEA Y/O PROYECTO - NEGOCIO VERDE *</label
                 >
+                <label for="categoria_proyecto" class="error"
+                  >Debe Seleccionar una casilla</label
+                >
               </div>
               <div class="form-group text-items">
                 <input
@@ -454,11 +470,14 @@
                   >CUÁL O CUÁLES DE LOS SIGUIENTES CRITERIOS CUMPLE O LE APUNTA
                   A CUMPLIR SU IDEA Y/O PROYECTO - NEGOCIO VERDE *</label
                 >
+                <label for="criterios_proyecto[]" class="error"
+                  >Debe Seleccionar una casilla</label
+                >
               </div>
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
+                  name="criterios_proyecto[]"
                   value="viabilidad_economica"
                   required
                 />
@@ -467,7 +486,7 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
+                  name="criterios_proyecto[]"
                   value="impacto_ambiental"
                 />
                 <strong>Impacto Ambiental Positivo del bien o servicio</strong>
@@ -475,7 +494,7 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
+                  name="criterios_proyecto[]"
                   value="enfoque_ciclo"
                 />
                 <strong>Enfoque de Ciclo de Vida del Bien o Servicio</strong>
@@ -483,7 +502,7 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
+                  name="criterios_proyecto[]"
                   value="vida_util"
                 />
                 <strong>Vida Útil</strong>
@@ -491,8 +510,8 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="sustitucion"
+                  name="criterios_proyecto[]"
+                  value="sustitucion_materiales_peligrosos"
                 />
                 <strong
                   >Sustitución de Sustancias o Materiales Peligrosos</strong
@@ -501,16 +520,16 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="reciclados"
+                  name="criterios_proyecto[]"
+                  value="uso_materiales_reciclados"
                 />
                 <strong>Uso de Materiales Reciclados</strong>
               </div>
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="sostenibilidad_recursos"
+                  name="criterios_proyecto[]"
+                  value="uso_eficiente_y_sostenible_recursos"
                 />
                 <strong
                   >Uso eficiente y sostenible de recursos para la producción del
@@ -520,8 +539,8 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="responsabilidad_social"
+                  name="criterios_proyecto[]"
+                  value="responsabilidad_social_interior_empresa"
                 />
                 <strong
                   >Responsabilidad Social al Interior de la Empresa</strong
@@ -530,8 +549,8 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="responsabilidad_cadena"
+                  name="criterios_proyecto[]"
+                  value="responsabilidad_social_ambiental_cadena_de_valor"
                 />
                 <strong
                   >Responsabilidad Social y Ambiental en la Cadena de valor de
@@ -541,8 +560,8 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="responsabilidad_exterior"
+                  name="criterios_proyecto[]"
+                  value="responsabilidad_social_ambiental_cadena_exterior_empresa"
                 />
                 <strong
                   >Responsabilidad Social y Ambiental al Exterior de la
@@ -552,8 +571,8 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
-                  value="comunicacion_atributos"
+                  name="criterios_proyecto[]"
+                  value="comunicacion_atributos_sociales"
                 />
                 <strong
                   >Comunicación de Atributos Sociales o Ambientales Asociados al
@@ -563,7 +582,7 @@
               <div class="form-group text-items">
                 <input
                   type="checkbox"
-                  name="criterios_proyecto"
+                  name="criterios_proyecto[]"
                   value="esquemas_ambientales"
                 />
                 <strong
@@ -583,6 +602,9 @@
                   <label class="label-accept"
                     >ACEPTA EL ACOMPAÑAMIENTO DE cardique EN SU IDEA Y/O
                     PROYECTO DE NEGOCIO VERDE? *</label
+                  >
+                  <label for="acompanamiento_proyecto" class="error"
+                    >Debe Seleccionar una casilla</label
                   >
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-accept">
@@ -612,6 +634,9 @@
                     TEMAS DE EMPRENDIMIENTO, SOSTENIBILIDAD, ECONOMÍA VERDE,
                     ENTRE OTROS? *</label
                   >
+                  <label for="participacion_talleres" class="error"
+                    >Debe Seleccionar una casilla</label
+                  >
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-accept">
                   <input
@@ -640,6 +665,9 @@
                     TRABAJAR EN CONJUNTO PARA EL FORTALECIMIENTO DE SU IDEA Y/O
                     PROYECTO DE NEGOCIO VERDE? *</label
                   >
+                  <label for="autorizar_contacto" class="error"
+                    >Debe Seleccionar una casilla</label
+                  >
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-accept">
                   <input
@@ -663,6 +691,9 @@
                     >AUTORIZA A cardique PARA ENVIAR COMUNICACIONES A TRAVÉS DEL
                     CORREO SUMINISTRADO*</label
                   >
+                  <label for="autorizacion_correo" class="error"
+                    >Debe Seleccionar una casilla</label
+                  >
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-accept">
                   <input
@@ -685,6 +716,9 @@
                   <label class="label-accept"
                     >HA DESARROLLADO EL CURSO DE FORMACIÓN DE NEGOCIOS VERDES
                     POR PARTE DE alguna entidad *</label
+                  >
+                  <label for="desarrollo_curso" class="error"
+                    >Debe Seleccionar una casilla</label
                   >
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-accept">
@@ -744,12 +778,7 @@
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-items">
-                  <input
-                    type="radio"
-                    name="politica_datos"
-                    value="si"
-                    required=""
-                  />
+                  <input type="radio" name="politica_datos" value="si" />
                   SI
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 form-group text-items">
@@ -973,8 +1002,6 @@
     <script src="assets/js/script.js"></script>
     <script src="assets/js/js_asomeja/preloader.js"></script>
     <script src="assets/js/js_asomeja/sidebar.js"></script>
-    <script src="assets/js/js_asomeja/footer.js"></script>
-    <script src="assets/js/js_cardique/map_index.js"></script>
     <script src="assets/js/js_cardique/input_document.js"></script>
   </body>
   <!-- End of .page_wrapper -->
