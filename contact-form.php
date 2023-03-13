@@ -46,7 +46,7 @@ $message = '
 		';
 
 $mail = new PHPMailer\PHPMailer\PHPMailer();
-$mail->setFrom("contacto@negociosverdes.com", 'Contacto Ventanilla Cardique');
+$mail->setFrom("nefretysanchez@gmail.com", 'Contacto Ventanilla Cardique');
 $mail->addAddress("nefretysanchez@gmail.com", "Contacto Ventanilla Cardique");
 $mail->isHTML(true);
 
@@ -69,10 +69,4 @@ else
 }
 
 ?>
-
-
-
-
-
-
 

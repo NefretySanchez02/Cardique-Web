@@ -1,13 +1,15 @@
 function onclick_map(id) {
-  document.getElementById("view-directory-" + id).style.display = "block";
-  localStorage.setItem("id_directory", id);
+  let openModal = $("foreignObject");
+  if (openModal.length != 0) {
+    openModal[0].remove();
+    messagesUIManagerCourse.drawItem(id);
+  } else {
+    messagesUIManagerCourse.drawItem(id);
+  }
 }
 
-document.addEventListener("scroll", remove_modal);
-
-function remove_modal() {
-  let id_info = localStorage.getItem("id_directory");
-  if (id_info !== null) {
-    document.getElementById("view-directory-" + id_info).style.display = "none";
-  }
+function remove_modal(id) {
+  var element = document.getElementById("view-directory-" + id);
+  element.classList.remove("d-block");
+  $(`#${id} foreignObject`)[0].remove();
 }

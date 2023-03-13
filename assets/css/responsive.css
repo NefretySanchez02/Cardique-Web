@@ -936,6 +936,15 @@
   .contact-section.contact-form-section .contact-float-section .block-float-2 {
     display: none;
   }
+  .cards-news img {
+    height: auto;
+  }
+  .sec-pad-3 {
+    padding: 70px 0px !important;
+  }
+  .sec-pad-4 {
+    padding: 0 0 70px 0 !important;
+  }
 }
 
 @media only screen and (max-width: 767px) {
@@ -1252,11 +1261,13 @@
   .shop-section.directory-section::before {
     border-bottom: none;
   }
-  .shop-section .float-image-shop{
+  .shop-section .float-image-shop {
     display: none;
   }
 
-  .banner-section.documents-banner-section .documents-block-float .documents-float-text{
+  .banner-section.documents-banner-section
+    .documents-block-float
+    .documents-float-text {
     display: none;
   }
 
@@ -1421,9 +1432,9 @@
 
   .shop-page-section.directory-page-section .map-section svg {
     width: 400px !important;
-    height: 400px !important;
+    height: 500px !important;
   }
-  .shop-section.directory-section .directory-block .directory-item svg{
+  .shop-section.directory-section .directory-block .directory-item svg {
     height: 600px;
     margin-top: 0;
   }
@@ -1685,9 +1696,9 @@
   .banner-section.news-banner-section
     .news-block-float
     .deco-items-float.thumbnail_3 {
-      top: unset;
-      right: -1%;
-      bottom: 120px;
+    top: unset;
+    right: -1%;
+    bottom: 120px;
   }
   .banner-section.news-banner-section .banner-container .content-box h1 {
     margin-bottom: 0px;
@@ -1920,10 +1931,10 @@
     .block-float-1 {
     top: 60%;
   }
-  .banner-section.documents-banner-section .banner-container{
+  .banner-section.documents-banner-section .banner-container {
     padding-top: 120px;
   }
-  .banner-section.documents-banner-section .banner-container .content-box h1{
+  .banner-section.documents-banner-section .banner-container .content-box h1 {
     margin-bottom: 0;
   }
   .contact-section.contact-form-section
@@ -1936,13 +1947,13 @@
   .shop-page-section.directory-page-section .dropdown.dropdown-map {
     margin-right: 20px;
   }
-  .shop-section.directory-section .directory-block .directory-item svg{
+  .shop-section.directory-section .directory-block .directory-item svg {
     height: 500px;
     margin-top: 0;
   }
   .banner-section.news-banner-section .banner-container {
     padding-top: 120px;
-}
+  }
 }
 
 @media only screen and (max-width: 330px) {
@@ -2056,12 +2067,12 @@
 
   .shop-page-section.directory-page-section .map-section svg {
     width: 350px !important;
-    height: 350px !important;
+    height: 450px !important;
   }
   .shop-page-section.directory-page-section .dropdown.dropdown-map {
     margin-right: 0px;
   }
-  .shop-section.directory-section .directory-block .directory-item svg{
+  .shop-section.directory-section .directory-block .directory-item svg {
     height: 400px;
     margin-top: 0;
   }

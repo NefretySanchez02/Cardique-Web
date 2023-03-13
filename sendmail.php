@@ -3,33 +3,33 @@ require 'phpmailer/Exception.php';
 require 'phpmailer/PHPMailer.php';
 require 'phpmailer/SMTP.php';
 
-$name 	= isset( $_POST['name'] ) ? $_POST['name'] : '';
-$type_document 	= isset( $_POST['type_document'] ) ? $_POST['type_document'] : '';
-$number_document 	= isset( $_POST['number_document'] ) ? $_POST['number_document'] : '';
-$direction	= isset( $_POST['direction'] ) ? $_POST['direction'] : '';
-$corregimiento= isset( $_POST['corregimiento'] ) ? $_POST['corregimiento'] : '';
-$email_person= isset( $_POST['email'] ) ? $_POST['email'] : '';
-$phone= isset( $_POST['phone'] ) ? $_POST['phone'] : '';
-$ubicacion= isset( $_POST['ubicacion'] ) ? $_POST['ubicacion'] : '';
-$facebook= isset( $_POST['facebook'] ) ? $_POST['facebook'] : '';
-$instragram= isset( $_POST['instragram'] ) ? $_POST['instragram'] : '';
-$page_web= isset( $_POST['page_web'] ) ? $_POST['page_web'] : '';
-$nombre_proyecto= isset( $_POST['nombre_proyecto'] ) ? $_POST['nombre_proyecto'] : '';
-$descripcion_proyecto= isset( $_POST['descripcion_proyecto'] ) ? $_POST['descripcion_proyecto'] : '';
-$estado_proyecto= isset( $_POST['estado_proyecto'] ) ? $_POST['estado_proyecto'] : '';
-$categoria_proyecto= isset( $_POST['categoria_proyecto'] ) ? $_POST['categoria_proyecto'] : '';
-$acompanamiento_proyecto= isset( $_POST['acompanamiento_proyecto'] ) ? $_POST['acompanamiento_proyecto'] : '';
-$participacion_talleres= isset( $_POST['participacion_talleres'] ) ? $_POST['participacion_talleres'] : '';
-$autorizar_contacto= isset( $_POST['autorizar_contacto'] ) ? $_POST['autorizar_contacto'] : '';
-$autorizacion_correo= isset( $_POST['autorizacion_correo'] ) ? $_POST['autorizacion_correo'] : '';
-$desarrollo_curso= isset( $_POST['desarrollo_curso'] ) ? $_POST['desarrollo_curso'] : '';
-$politica_datos= isset( $_POST['politica_datos'] ) ? $_POST['politica_datos'] : '';
-$file_tmp  = $_FILES['files_products']['tmp_name'];
+$name = isset($_POST['name']) ? $_POST['name'] : '';
+$type_document = isset($_POST['type_document']) ? $_POST['type_document'] : '';
+$number_document = isset($_POST['number_document']) ? $_POST['number_document'] : '';
+$direction = isset($_POST['direction']) ? $_POST['direction'] : '';
+$corregimiento = isset($_POST['corregimiento']) ? $_POST['corregimiento'] : '';
+$email_person = isset($_POST['email']) ? $_POST['email'] : '';
+$phone = isset($_POST['phone']) ? $_POST['phone'] : '';
+$ubicacion = isset($_POST['ubicacion']) ? $_POST['ubicacion'] : '';
+$facebook = isset($_POST['facebook']) ? $_POST['facebook'] : '';
+$instragram = isset($_POST['instragram']) ? $_POST['instragram'] : '';
+$page_web = isset($_POST['page_web']) ? $_POST['page_web'] : '';
+$nombre_proyecto = isset($_POST['nombre_proyecto']) ? $_POST['nombre_proyecto'] : '';
+$descripcion_proyecto = isset($_POST['descripcion_proyecto']) ? $_POST['descripcion_proyecto'] : '';
+$estado_proyecto = isset($_POST['estado_proyecto']) ? $_POST['estado_proyecto'] : '';
+$categoria_proyecto = isset($_POST['categoria_proyecto']) ? $_POST['categoria_proyecto'] : '';
+$acompanamiento_proyecto = isset($_POST['acompanamiento_proyecto']) ? $_POST['acompanamiento_proyecto'] : '';
+$participacion_talleres = isset($_POST['participacion_talleres']) ? $_POST['participacion_talleres'] : '';
+$autorizar_contacto = isset($_POST['autorizar_contacto']) ? $_POST['autorizar_contacto'] : '';
+$autorizacion_correo = isset($_POST['autorizacion_correo']) ? $_POST['autorizacion_correo'] : '';
+$desarrollo_curso = isset($_POST['desarrollo_curso']) ? $_POST['desarrollo_curso'] : '';
+$politica_datos = isset($_POST['politica_datos']) ? $_POST['politica_datos'] : '';
+$file_tmp = $_FILES['files_products']['tmp_name'];
 $file_name = $_FILES['files_products']['name'];
 $checkbox = "";
-if(!empty($_POST["criterios_proyecto"])){
-    $checkbox = implode(', ', $_POST['criterios_proyecto']);           
-}	 
+if (!empty($_POST["criterios_proyecto"])) {
+	$checkbox = implode(', ', $_POST['criterios_proyecto']);
+}
 
 
 $message = '
@@ -49,7 +49,7 @@ $message = '
 		</tr>
 		<tr>
 		<td align="right" valign="top" style="border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;">Tipo y numero de documentos:</td>
-		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . $type_document . ' '.$number_document.'</td>
+		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . $type_document . ' ' . $number_document . '</td>
 		</tr>
 		<tr>
 		<td align="right" valign="top" style="border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;">Dirección:</td>
@@ -90,7 +90,7 @@ $message = '
         <tr>
 		<tr>
 		<td align="right" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;">Descripción de la Idea y/o proyecto:</td>
-		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . nl2br( $descripcion_proyecto ) . '</td>
+		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . nl2br($descripcion_proyecto) . '</td>
 		</tr>
         <tr>
 		<td align="right" valign="top" style="border-top:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;">Fotos del Productos: archivo adjunto</td>
@@ -144,26 +144,16 @@ $mail->isHTML(true);
 $mail->Subject = "Formulario de Contacto";
 $mail->Body = $message;
 $mail->AddAttachment($file_tmp, $file_name);
-if(!$mail->send()) 
-{
-    echo '<script>
+if (!$mail->send()) {
+	echo '<script>
 					window.location = "como-ser-parte.html";
 					alert("Error enviando mensaje, Por favor intente mas tarde")
 				</script>';
-} 
-else 
-{
-    echo '<script>
+} else {
+	echo '<script>
 						window.location = "como-ser-parte.html";
 						alert("Mensaje enviado")
 					</script>';
-} 
+}
 
 ?>
-
-
-
-
-
-
-
