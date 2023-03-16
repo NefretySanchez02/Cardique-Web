@@ -54,7 +54,7 @@ var messagesUIManagerCourse = {
       let instagram = data[0].instagram;
       let whatsapp = data[0].whatsapp;
       let email = data[0].mail;
-      let link_maps = data[0].link_ubicacion
+      let link_maps = data[0].link_ubicacion;
       let logo_categoria;
       if (categortia == "Bioproductos y servicios sostenibles") {
         logo_categoria = "Grupo 4128.png";
@@ -70,7 +70,7 @@ var messagesUIManagerCourse = {
           <div class="header-modal">
             <div  class="title">
               <img
-              src="logos_mapa/${foto}"
+              src="backoffice/assets/img/logos_negocios/${foto}"
               alt=""
             />
             <h2>${nombre}</h2>

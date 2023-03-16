@@ -54,49 +54,10 @@ var messagesClient = {
   },
 
   /**
-   * Eliminar una noticia en la BD
-   */
-
-  deleteNews: function (item_id, callback) {
-    $.ajax({
-      method: "POST",
-      url: application.service_url + "negocios_verdes.php",
-      data: {
-        action: "delete",
-        id_item: item_id,
-      },
-    }).done(function (msg) {
-      console.log(msg);
-    });
-  },
-
-  /**
    * Editar una noticia en la BD
    */
 
-  updateImageNews: function (foto) {
-    var formData = new FormData();
-    formData.append("image", foto);
-    formData.append("action", "updateFiles");
-    if (typeof formData.get("image") == "object") {
-      $.ajax({
-        url: application.service_url + "negocios_verdes.php",
-        type: "POST",
-        data: formData,
-        mimeType: "multipart/form-data",
-        dataType: "html",
-        contentType: false,
-        processData: false,
-        success: function (msg, textStatus, jqXHR) {
-          console.log(msg);
-        },
-        error: function (jqXHR, textStatus, errorThrown) {},
-      });
-    }
-
-    /*  */
-  },
-  updateImageCourse: function (foto) {
+  updateLogo: function (foto) {
     var formData = new FormData();
     formData.append("image", foto);
     formData.append("action", "updateImage");
@@ -214,18 +175,25 @@ var messagesUIManager = {
     }
 
     messagesClient.get(id, function (data) {
-      var tipo = data.tipo;
-      if (tipo == "formacion") {
-        tipo = "formacion continua";
-      }
-      var url_brochure = ` <a href="assets/brochures/${data.brochure}" target="_blank">${data.brochure}</a>`;
-      var url_img = ` <img src='assets/img/services/${data.imagen}' style="width: 100%;" />`;
-      document.getElementById("item-curse-name").innerText = data.nombre;
-      document.getElementById("item-curse-img").innerHTML = url_img;
-      document.getElementById("item-curse-hours").innerText = data.intensidad;
-      document.getElementById("item-curse-type").innerText = tipo;
-      document.getElementById("item-curse-modality").innerText = data.modalidad;
-      document.getElementById("item-curse-file").innerHTML = url_brochure;
+      var url_img = ` <img src='assets/img/logos_negocios/${data.foto}'  />`;
+      var url_link = `<a href="${data.link_ubicacion}" target="_blank">Google Maps</a>`;
+      var url_face = `<a href="${data.facebook}" target="_blank">Facebook</a>`;
+      var url_inst = `<a href="${data.instagram}" target="_blank">Instagram</a>`;
+      var url_wpp = `<a href="${data.whatsapp}" target="_blank">Whatsapp</a>`;
+      var url_web = `<a href="${data.web}" target="_blank">Pagina Web</a>`;
+      document.getElementById("item-name").innerText = data.nombre;
+      document.getElementById("item-descripcion").innerText = data.descripcion;
+      document.getElementById("item-ubicacion").innerText = data.ubicacion;
+      document.getElementById("item-foto").innerHTML = url_img;
+      document.getElementById("item-codigo_plus").innerText = data.codigo_plus;
+      document.getElementById("item-link_ubicacion").innerHTML = url_link;
+      document.getElementById("item-categoria").innerText = data.categoria;
+      document.getElementById("item-zona").innerText = data.zona;
+      document.getElementById("item-facebook").innerHTML = url_face;
+      document.getElementById("item-instagram").innerHTML = url_inst;
+      document.getElementById("item-whatsapp").innerHTML = url_wpp;
+      document.getElementById("item-email").innerHTML = data.mail;
+      document.getElementById("item-web").innerHTML = url_web;
       document.getElementById("view-course").classList.add("d-block");
     });
   },
@@ -239,47 +207,36 @@ var messagesUIManager = {
     }
 
     messagesClient.get(id, function (data) {
-      var inputID = $("#id_course");
+      var inputID = $("#id_negocio");
       inputID.val(data.id);
       var inputTitular = $("#nombre");
       inputTitular.val(data.nombre);
-      var inpuIntensidad = $("#intensidad");
-      inpuIntensidad.val(data.intensidad);
-      var inputModalidad = $("#modalidad");
-      inputModalidad.val(data.modalidad);
-      var inputFoto = $("#brochure-name");
-      inputFoto.val(data.brochure);
-      var inputImg = $("#imagen-name");
-      inputImg.val(data.imagen);
-      var selectCategoria = $("#tipo");
-      selectCategoria.val(data.tipo);
+      var textareaDesc = $("#descripcion");
+      textareaDesc.val(data.descripcion);
+      var inpuIntensidad = $("#ubicacion");
+      inpuIntensidad.val(data.ubicacion);
+      var inputModalidad = $("#imagen-name");
+      inputModalidad.val(data.foto);
+      var inputFoto = $("#codigo-plus");
+      inputFoto.val(data.codigo_plus);
+      var inputImg = $("#link-ubicacion");
+      inputImg.val(data.link_ubicacion);
+      var selectCategoria = $("#categoria");
+      selectCategoria.val(data.categoria);
+      var inputZona = $("#zona");
+      inputZona.val(data.zona);
+      var inputface = $("#facebook");
+      inputface.val(data.facebook);
+      var inputInsta = $("#instragram");
+      inputInsta.val(data.instagram);
+      var inputWpp = $("#whatsapp");
+      inputWpp.val(data.whatsapp);
+      var inputMail = $("#emial");
+      inputMail.val(data.mail);
+      var inputWeb = $("#web");
+      inputWeb.val(data.web);
       document.getElementById("message-datail").classList.add("d-block");
     });
-  },
-
-  viewModalDelete: function (id, name) {
-    if (!id) {
-      return false;
-    }
-
-    document.getElementById("item-news-name").innerText = name;
-    document.getElementById("delete-news").classList.add("d-block");
-    localStorage.setItem("id_news", id);
-
-    /*  messagesClient.deleteNews(id, function (data) {
-          console.log(id)
-      }); */
-  },
-
-  removeItem: function () {
-    if (!localStorage.getItem("id_news")) {
-      return false;
-    }
-    let id_new = localStorage.getItem("id_news");
-
-    messagesClient.deleteNews(id_new, function (data) {});
-    document.getElementById("delete-news").classList.remove("d-block");
-    window.location.reload();
   },
 
   /**
@@ -291,58 +248,36 @@ var messagesUIManager = {
   hideItemUpdateModal: function (id) {
     document.getElementById("message-datail").classList.remove("d-block");
   },
-  hideItemCreateModal: function (id) {
-    document.getElementById("create-course").classList.remove("d-block");
-  },
   hideItemViewModal: function (id) {
     document.getElementById("view-course").classList.remove("d-block");
   },
   updateNews: function () {
-    if (
-      document.getElementById("id_course").value.trim().length === 0 ||
-      document.getElementById("nombre").value.trim().length === 0 ||
-      document.getElementById("imagen-name").value.trim().length === 0 ||
-      document.getElementById("intensidad").value.trim().length === 0 ||
-      document.getElementById("modalidad").value.trim().length === 0 ||
-      document.getElementById("brochure-name").value.trim().length === 0 ||
-      document.getElementById("tipo").value.trim().length === 0
-    ) {
-      alert("Debes completar los campos para continuar");
-      return false;
-    }
     let dataset = {
-      id: document.getElementById("id_course").value,
+      id: document.getElementById("id_negocio").value,
       nombre: document.getElementById("nombre").value,
-      imagen: document.getElementById("imagen-file").value,
-      intensidad: document.getElementById("intensidad").value,
-      modalidad: document.getElementById("modalidad").value,
-      brochure: document.getElementById("brochure-file").value,
-      tipo: document.getElementById("tipo").value,
+      descripcion: document.getElementById("descripcion").value,
+      ubicacion: document.getElementById("ubicacion").value,
+      logo: document.getElementById("imagen-file").value,
+      codigo_plus: document.getElementById("codigo-plus").value,
+      link_ubicacion: document.getElementById("link-ubicacion").value,
+      categoria: document.getElementById("categoria").value,
+      zona: document.getElementById("zona").value,
+      facebook: document.getElementById("facebook").value,
+      instagram: document.getElementById("instragram").value,
+      whatsapp: document.getElementById("whatsapp").value,
+      email: document.getElementById("emial").value,
+      web: document.getElementById("web").value,
     };
-
-    if (dataset.imagen == "") {
-      dataset.imagen = document.getElementById("imagen-name").value;
+    if (dataset.logo == "") {
+      dataset.logo = document.getElementById("imagen-name").value;
     } else {
-      dataset.imagen = document.getElementById("imagen-file").files[0];
-    }
-
-    if (dataset.brochure == "") {
-      dataset.brochure = document.getElementById("brochure-name").value;
-    } else {
-      dataset.brochure = document.getElementById("brochure-file").files[0];
-    }
-
-    var dataBrochure;
-    if (typeof dataset.brochure == "object") {
-      dataBrochure = dataset.brochure.name;
-    } else {
-      dataBrochure = dataset.brochure;
+      dataset.logo = document.getElementById("imagen-file").files[0];
     }
     var dataFoto;
-    if (typeof dataset.imagen == "object") {
-      dataFoto = dataset.imagen.name;
+    if (typeof dataset.logo == "object") {
+      dataFoto = dataset.logo.name;
     } else {
-      dataFoto = dataset.imagen;
+      dataFoto = dataset.logo;
     }
     $.ajax({
       method: "POST",
@@ -351,64 +286,27 @@ var messagesUIManager = {
         action: "update",
         id: dataset.id,
         nombre: dataset.nombre,
-        imagen: dataFoto,
-        intensidad: dataset.intensidad,
-        modalidad: dataset.modalidad,
-        brochure: dataBrochure,
-        tipo: dataset.tipo,
+        descripcion: dataset.descripcion,
+        ubicacion: dataset.ubicacion,
+        foto: dataFoto,
+        codigo_plus: dataset.codigo_plus,
+        link_ubicacion: dataset.link_ubicacion,
+        categoria: dataset.categoria,
+        zona: dataset.zona,
+        facebook: dataset.facebook,
+        instagram: dataset.instagram,
+        whatsapp: dataset.whatsapp,
+        email: dataset.email,
+        web: dataset.web,
       },
     }).done(function (msg) {
-      messagesClient.updateImageNews(dataset.brochure);
-      messagesClient.updateImageCourse(dataset.imagen);
+      messagesClient.updateLogo(dataset.logo);
       if (msg.length == 0) {
-        alert("Programa Actualizado");
+        alert("Informacion de Negocio Actualizada");
         window.location.reload();
       } else {
         alert("Error actualizando la noticia, por favor intentar más tarde");
       }
-    });
-  },
-  addServiceItem: function () {
-    document.getElementById("create-course").classList.add("d-block");
-  },
-  addFormation: function () {
-    if (
-      document.getElementById("createName").value.trim().length === 0 ||
-      document.getElementById("createIntensidad").value.trim().length === 0 ||
-      document.getElementById("createBrochure-name").value.trim().length ===
-        0 ||
-      document.getElementById("createFormacion").value.trim().length === 0 ||
-      document.getElementById("createImagen-name").value.trim().length === 0 ||
-      document.getElementById("createModalidad").value.trim().length === 0
-    ) {
-      alert("Debes completar los campos para continuar");
-      return false;
-    }
-    let dataset = {
-      nombre: document.getElementById("createName").value,
-      imagen: document.getElementById("createImagen-file").files[0],
-      intensidad: document.getElementById("createIntensidad").value,
-      modalidad: document.getElementById("createModalidad").value,
-      brochure: document.getElementById("createBrochure-file").files[0],
-      tipo: document.getElementById("createFormacion").value,
-    };
-    $.ajax({
-      method: "POST",
-      url: application.service_url + "negocios_verdes.php",
-      data: {
-        action: "create",
-        nombre: dataset.nombre,
-        imagen: dataset.imagen.name,
-        intensidad: dataset.intensidad,
-        modalidad: dataset.modalidad,
-        brochure: dataset.brochure.name,
-        tipo: dataset.tipo,
-      },
-    }).done(function (msg) {
-      messagesClient.updateImageNews(dataset.brochure);
-      messagesClient.updateImageCourse(dataset.imagen);
-      alert("Programa creado");
-      window.location.reload();
     });
   },
 };

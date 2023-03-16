@@ -3,10 +3,10 @@ error_reporting(0);
 
 //require_once 'security.php';
 
-use App\Core\CRUD\Negocios;
+use App\Core\CRUD\Imagenes_Negocios;
 use App\Core\Box\Tools;
 
-require_once '../App/Core/CRUD/Negocios.php';
+require_once '../App/Core/CRUD/Imagenes_Negocios.php';
 //require_once '../App/BlackBox/uploader/RSFileUploader.php';
 //require_once '../Core/Box/Tools.php';
 
@@ -22,8 +22,14 @@ if ($_GET['action'] == "list") {
     get();
 } else if ($_GET['action'] == "getByName") {
     getByName();
-} else if ($_POST['action'] == "updateImage") {
+} else if ($_POST['action'] == "create") {
+    create();
+} else if ($_POST['action'] == "updatePhoto") {
     updateImage();
+} else if ($_POST['action'] == "updateFile") {
+    updateFile();
+} else if ($_POST['action'] == "delete") {
+    delete();
 } else if ($_POST['action'] == "update") {
     update();
 } else {
@@ -34,7 +40,7 @@ if ($_GET['action'] == "list") {
 
 function listItems()
 {
-    $newsManager = new Negocios();
+    $newsManager = new Imagenes_Negocios();
     $newsItem_list = $newsManager->find(array("sort" => array("id" => "ASC")));
     print_r($newsItem_list);
 
@@ -48,7 +54,7 @@ function listItems()
 
 function getByName()
 {
-    $newsManager = new Negocios();
+    $newsManager = new Imagenes_Negocios();
 
     $title = filter_input(INPUT_GET, "id_mapa", FILTER_SANITIZE_STRING);
     if (empty($title))
@@ -70,7 +76,7 @@ function getByName()
 
 function get()
 {
-    $newsManager = new Negocios();
+    $newsManager = new Imagenes_Negocios();
 
     $slug = filter_input(INPUT_GET, "slug", FILTER_SANITIZE_STRING);
     if (empty($slug))
@@ -92,7 +98,7 @@ function get()
 
 function updateImage()
 {
-    $target_dir = "../assets/img/logos_negocios/";
+    $target_dir = "../assets/img/services/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -114,25 +120,62 @@ function updateImage()
 
 }
 
-function update(){
-    $serviceManager = new Negocios();
+function updateFile()
+{
+    $target_dir = "../assets/boletines/";
+    $target_file = $target_dir . basename($_FILES["file"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    if (move_uploaded_file($_FILES["file"]["tmp_name"], $target_file)) {
+        echo "The file " . htmlspecialchars(basename($_FILES["file"]["name"])) . " has been uploaded.";
+    } else {
+        echo "Sorry, there was an error uploading your file.";
+    }
+
+
+}
+
+function update()
+{
+
+    $serviceManager = new Imagenes_Negocios();
     $service_data[0] = filter_input(INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT);
     $service_data[1] = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
-    $service_data[2] = filter_input(INPUT_POST, 'descripcion', FILTER_SANITIZE_STRING);
-    $service_data[3] = filter_input(INPUT_POST, 'ubicacion', FILTER_SANITIZE_STRING);
-    $service_data[4] = filter_input(INPUT_POST, 'foto', FILTER_SANITIZE_STRING);
-    $service_data[5] = filter_input(INPUT_POST, 'codigo_plus', FILTER_SANITIZE_STRING);
-    $service_data[6] = filter_input(INPUT_POST, 'link_ubicacion', FILTER_SANITIZE_STRING);
-    $service_data[7] = filter_input(INPUT_POST, 'categoria', FILTER_SANITIZE_STRING);
-    $service_data[8] = filter_input(INPUT_POST, 'zona', FILTER_SANITIZE_STRING);
-    $service_data[9] = filter_input(INPUT_POST, 'facebook', FILTER_SANITIZE_STRING);
-    $service_data[10] = filter_input(INPUT_POST, 'instagram', FILTER_SANITIZE_STRING);
-    $service_data[11] = filter_input(INPUT_POST, 'whatsapp', FILTER_SANITIZE_STRING);
-    $service_data[12] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_STRING);
-    $service_data[13] = filter_input(INPUT_POST, 'web', FILTER_SANITIZE_STRING);
+    $service_data[2] = filter_input(INPUT_POST, 'imagen', FILTER_SANITIZE_STRING);
+    $service_data[3] = filter_input(INPUT_POST, 'boletin', FILTER_SANITIZE_STRING);
 
-    $qres = $serviceManager->updateNegociosById($service_data);
-    print($qres);
+    $qres = $serviceManager->updateNewsById($service_data);
+
+    $response = array();
+    if ($qres) {
+        $response["success"] = 1;
+        $response["data"] = "Register could be updated";
+    } else {
+        $response["success"] = 0;
+        $response["error"] = "Register couldn't be updated";
+    }
+
+    echo json_encode($response);
+}
+
+function delete()
+{
+    $service_id = filter_input(INPUT_POST, 'id_item', FILTER_SANITIZE_NUMBER_INT);
+    $serviceManager = new Imagenes_Negocios();
+    $qres = $serviceManager->deleteById($service_id);
+    $response = array();
+    $response["success"] = 1;
+    echo json_encode($response);
+}
+
+function create()
+{
+    $serviceManager = new Imagenes_Negocios();
+    $messaje = array();
+    $service_data[0] = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
+    $service_data[1] = filter_input(INPUT_POST, 'imagen', FILTER_SANITIZE_STRING);
+    $service_data[2] = filter_input(INPUT_POST, 'boletin', FILTER_SANITIZE_STRING);
+    $qres = $serviceManager->createBoletin($service_data);
 
     $response = array();
     if ($qres) {
