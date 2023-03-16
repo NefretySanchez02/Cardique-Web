@@ -16,7 +16,7 @@ var messagesClient = {
   list: function () {
     $.ajax({
       method: "GET",
-      url: application.service_url + "formacion.php",
+      url: application.service_url + "negocios_verdes.php",
       data: { action: "list" },
     }).done(function (msg) {
       if (msg.length != 0) {
@@ -37,7 +37,7 @@ var messagesClient = {
   get: function (item_id, callback) {
     $.ajax({
       method: "GET",
-      url: application.service_url + "formacion.php",
+      url: application.service_url + "negocios_verdes.php",
       data: {
         action: "get",
         slug: item_id,
@@ -60,7 +60,7 @@ var messagesClient = {
   deleteNews: function (item_id, callback) {
     $.ajax({
       method: "POST",
-      url: application.service_url + "formacion.php",
+      url: application.service_url + "negocios_verdes.php",
       data: {
         action: "delete",
         id_item: item_id,
@@ -80,7 +80,7 @@ var messagesClient = {
     formData.append("action", "updateFiles");
     if (typeof formData.get("image") == "object") {
       $.ajax({
-        url: application.service_url + "formacion.php",
+        url: application.service_url + "negocios_verdes.php",
         type: "POST",
         data: formData,
         mimeType: "multipart/form-data",
@@ -102,7 +102,7 @@ var messagesClient = {
     formData.append("action", "updateImage");
     if (typeof formData.get("image") == "object") {
       $.ajax({
-        url: application.service_url + "formacion.php",
+        url: application.service_url + "negocios_verdes.php",
         type: "POST",
         data: formData,
         mimeType: "multipart/form-data",
@@ -139,18 +139,18 @@ var messagesUIManager = {
     let wrapper = document.getElementById("news-wrapper");
     var page_span = document.getElementById("page");
     let numberPages = Math.ceil(messages.length / 10);
-    localStorage.setItem("numberPages",numberPages)
+    localStorage.setItem("numberPages", numberPages);
     wrapper.innerHTML = "";
 
     if (page < 1) page = 1;
     if (page > numberPages) page = numberPages;
     for (var i = (page - 1) * 10; i < page * 10; i++) {
-      if(messages[i] === undefined){
-        break
+      if (messages[i] === undefined) {
+        break;
       }
       wrapper.appendChild(messagesUIManager.drawItem(messages[i]));
     }
- /*    messages.slice(-10).forEach(function (msg, i) {
+    /*    messages.slice(-10).forEach(function (msg, i) {
       wrapper.appendChild(messagesUIManager.drawItem(msg));
     }); */
     page_span.innerHTML = `${page} de ${numberPages}`;
@@ -181,11 +181,7 @@ var messagesUIManager = {
 
     let id = itemData.id;
     let name = itemData.nombre;
-    let tipo = itemData.tipo;
-    if (tipo === "formacion") {
-      tipo = "formacion continua";
-    }
-
+    let tipo = itemData.categoria;
     let itemHtml = /*html*/ `        
             <td>
               <span class="service-name">${name}</span>
@@ -200,10 +196,6 @@ var messagesUIManager = {
               <a class="text-info hover-effect" onclick="messagesUIManager.editItem('${id}')">
               <i class="material-icons">mode_edit</i>
             </a>
-            <a class="text-info hover-effect" onclick="messagesUIManager.viewModalDelete('${id}','${name}')">
-              <i class="material-icons">do_not_disturb_alt</i>
-            </a>
-            
           </td>
            
         `;
@@ -354,7 +346,7 @@ var messagesUIManager = {
     }
     $.ajax({
       method: "POST",
-      url: application.service_url + "formacion.php",
+      url: application.service_url + "negocios_verdes.php",
       data: {
         action: "update",
         id: dataset.id,
@@ -402,7 +394,7 @@ var messagesUIManager = {
     };
     $.ajax({
       method: "POST",
-      url: application.service_url + "formacion.php",
+      url: application.service_url + "negocios_verdes.php",
       data: {
         action: "create",
         nombre: dataset.nombre,
@@ -441,8 +433,8 @@ function prevPage() {
 
 function nextPage() {
   let numberPages;
-  if(localStorage.getItem("numberPages")!==undefined){
-    numberPages= localStorage.getItem("numberPages")
+  if (localStorage.getItem("numberPages") !== undefined) {
+    numberPages = localStorage.getItem("numberPages");
   }
   if (current_page < numberPages) {
     current_page++;

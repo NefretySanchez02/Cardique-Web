@@ -46,8 +46,8 @@ $message = '
 		';
 
 $mail = new PHPMailer\PHPMailer\PHPMailer();
-$mail->setFrom("nefretysanchez@gmail.com", 'Contacto Ventanilla Cardique');
-$mail->addAddress("nefretysanchez@gmail.com", "Contacto Ventanilla Cardique");
+$mail->setFrom("contact@negociosverdes.com", 'Contacto Ventanilla Cardique');
+$mail->addAddress("negociosverdes@cardique.gov.co", "Contacto Ventanilla Cardique");
 $mail->isHTML(true);
 
 $mail->Subject = "Formulario de Contacto";

@@ -42,7 +42,7 @@ var newsClientCourse = {
 var messagesUIManagerCourse = {
   drawItem: function (id) {
     let itemHTML = "";
-    let wrapper = document.getElementById(id);
+    let wrapper = document.getElementById("view-item");
     newsClientCourse.get(id, function (data) {
       let nombre = data[0].nombre;
       let foto = data[0].foto;
@@ -66,23 +66,7 @@ var messagesUIManagerCourse = {
       if (facebook.length == 0) {
         facebook = "#";
       }
-      itemHTML = `<foreignobject
-      class="wow-star__text"
-      width="70%"
-      height="70%"
-      transform="translate(-300,30)"
-    >
-      <body xmlns="http://www.w3.org/1999/xhtml">
-        <div class="view-directory d-block" id="view-directory-${id}">
-          <div class="clasify">
-            <span onclick="remove_modal('${id}')">
-              <img
-                src="assets/images/img_cardique/Grupo 4162.png"
-                alt=""
-              />
-            </span>
-            <p onclick="remove_modal('${id}')">Cerrar</p>
-          </div>
+      itemHTML = `<div class="view-directory d-block" id="view-directory-${id}">
           <div class="header-modal">
             <div  class="title">
               <img
@@ -155,10 +139,9 @@ var messagesUIManagerCourse = {
               </div>
             </div>
           </div>
-        </div>
-      </body>
-    </foreignobject> `;
-      wrapper.insertAdjacentHTML("beforeend", itemHTML);
+        </div>`;
+      wrapper.innerHTML = itemHTML;
+      document.getElementById("list-business").classList.add("d-block");
     });
   },
 };

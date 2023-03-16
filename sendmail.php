@@ -137,8 +137,8 @@ $message = '
 		';
 
 $mail = new PHPMailer\PHPMailer\PHPMailer();
-$mail->setFrom("contacto@negociosverdes.com", 'Contacto Ventanilla Cardique');
-$mail->addAddress("nefretysanchez@gmail.com", "Contacto Ventanilla Cardique");
+$mail->setFrom("contacto@negociosverdes.com", 'Como ser Parte');
+$mail->addAddress("negociosverdes@cardique.gov.co", "Como ser Parte");
 $mail->isHTML(true);
 
 $mail->Subject = "Formulario de Contacto";

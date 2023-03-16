@@ -16,7 +16,7 @@ var messagesClient = {
   list: function () {
     $.ajax({
       method: "GET",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: { action: "list" },
     }).done(function (msg) {
       application.log(msg);
@@ -35,7 +35,7 @@ var messagesClient = {
   get: function (item_id, callback) {
     $.ajax({
       method: "GET",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: {
         action: "get",
         slug: item_id,
@@ -57,7 +57,7 @@ var messagesClient = {
   markAsRead: function (item_id, callback) {
     $.ajax({
       method: "POST",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: {
         action: "markasviewed",
         mid: item_id,
@@ -80,7 +80,7 @@ var messagesClient = {
   deleteNews: function (item_id, callback) {
     $.ajax({
       method: "POST",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: {
         action: "delete",
         id_item: item_id,
@@ -94,14 +94,36 @@ var messagesClient = {
    * Editar una noticia en la BD
    */
 
-  updateImageNews: function (item_id, foto) {
+  updateImageBoletin: function (foto) {
     var formData = new FormData();
     formData.append("image", foto);
-    formData.append("action", "updateImage");
-    formData.append("id", item_id);
+    formData.append("action", "updatePhoto");
     if (typeof formData.get("image") == "object") {
       $.ajax({
-        url: application.service_url + "noticias.php",
+        url: application.service_url + "boletines.php",
+        type: "POST",
+        data: formData,
+        mimeType: "multipart/form-data",
+        dataType: "html",
+        contentType: false,
+        processData: false,
+        success: function (msg, textStatus, jqXHR) {
+          console.log(msg);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {},
+      });
+    }
+
+    /*  */
+  },
+
+  updateBoletin: function (file) {
+    var formData = new FormData();
+    formData.append("file", file);
+    formData.append("action", "updateFile");
+    if (typeof formData.get("file") == "object") {
+      $.ajax({
+        url: application.service_url + "boletines.php",
         type: "POST",
         data: formData,
         mimeType: "multipart/form-data",
@@ -150,20 +172,16 @@ var messagesUIManager = {
     }
 
     let id = itemData.id;
-    let name = itemData.titular;
-    let slug = itemData.slug;
-    let business = itemData.fecha_publicacion;
+    let name = itemData.nombre;
+    let imagen = itemData.imagen;
+    let boletin = itemData.boletin;
 
     let itemHtml = /*html*/ `        
           <td>
-            <span class="service-name">${business}</span>
+            <span class="service-name">${name}</span>
           </td>
           <td>
-            <span class="d-block">${name}</span>
-          </td>
-          <td>
-       
-            <a class="text-info hover-effect" href="../view?slug=${slug}">
+            <a class="text-info hover-effect" onclick="messagesUIManager.viewModalItem('${id}')">
               <i class="material-icons">visibility</i>
             </a>
             <a class="text-info hover-effect" onclick="messagesUIManager.editItem('${id}')">
@@ -194,18 +212,15 @@ var messagesUIManager = {
     }
 
     messagesClient.get(id, function (data) {
-      var inputID = $("#id_news");
+      var inputID = $("#id_boletin");
       inputID.val(data.id);
-      var inputTitular = $("#titular");
-      inputTitular.val(data.titular);
-      var inputSlug = $("#slug");
-      inputSlug.val(data.slug);
-      var inputFoto = $("#foto-name");
-      inputFoto.val(data.foto);
-      quill.clipboard.dangerouslyPasteHTML(0, data.contenido);
+      var inputTitular = $("#edit-nombre");
+      inputTitular.val(data.nombre);
+      var inputSlug = $("#edit-img");
+      inputSlug.val(data.imagen);
+      var inputFoto = $("#edit-file");
+      inputFoto.val(data.boletin);
       document.getElementById("message-datail").classList.add("d-block");
-      var inputAutor = $("#autor");
-      inputAutor.val(data.autor);
     });
   },
 
@@ -216,7 +231,7 @@ var messagesUIManager = {
 
     document.getElementById("item-news-name").innerText = name;
     document.getElementById("delete-news").classList.add("d-block");
-    localStorage.setItem("id_news", id);
+    localStorage.setItem("id_boletin", id);
 
     /*  messagesClient.deleteNews(id, function (data) {
         console.log(id)
@@ -224,14 +239,30 @@ var messagesUIManager = {
   },
 
   removeItem: function () {
-    if (!localStorage.getItem("id_news")) {
+    if (!localStorage.getItem("id_boletin")) {
       return false;
     }
-    let id_new = localStorage.getItem("id_news");
+    let id_new = localStorage.getItem("id_boletin");
 
     messagesClient.deleteNews(id_new, function (data) {});
     document.getElementById("delete-news").classList.remove("d-block");
     window.location.reload();
+  },
+
+  viewModalItem: function (id) {
+    if (!id) {
+      return false;
+    }
+
+    messagesClient.get(id, function (data) {
+      var inputTitular = $("#item-name");
+      inputTitular[0].innerText = data.nombre;
+      var inputSlug = $("#item-img");
+      inputSlug[0].innerHTML = `<img src="assets/img/services/${data.imagen}" style="width: 100%;" />`;
+      var inputFoto = $("#item-file");
+      inputFoto[0].innerHTML = `<a href="assets/boletines/${data.boletin}" target="_blank" >${data.boletin}</a>`;
+      document.getElementById("view-boletin").classList.add("d-block");
+    });
   },
 
   /**
@@ -246,54 +277,65 @@ var messagesUIManager = {
   hideItemCreateModal: function (id) {
     document.getElementById("create-news").classList.remove("d-block");
   },
+  hideItemViewModal: function (id) {
+    document.getElementById("view-boletin").classList.remove("d-block");
+  },
   updateNews: function () {
     if (
-      document.getElementById("id_news").value.trim().length === 0 ||
-      document.getElementById("titular").value.trim().length === 0 ||
-      document.getElementById("slug").value.trim().length === 0 ||
-      document.getElementById("foto-name").value.trim().length === 0 ||
-      document.getElementById("autor").value.trim().length === 0
+      document.getElementById("edit-nombre").value.trim().length === 0 ||
+      document.getElementById("edit-img").value.trim().length === 0 ||
+      document.getElementById("edit-file").value.trim().length === 0
     ) {
       alert("Debes completar los campos para continuar");
       return false;
     }
     let dataset = {
-      id: document.getElementById("id_news").value,
-      titular: document.getElementById("titular").value,
-      slug: document.getElementById("slug").value,
-      foto: document.getElementById("foto-file").value,
-      contenido: $("#contenido .ql-editor")[0].innerHTML,
-      autor: document.getElementById("autor").value,
+      id: document.getElementById("id_boletin").value,
+      nombre: document.getElementById("edit-nombre").value,
+      imagen: document.getElementById("edit-img-file").value,
+      boletin: document.getElementById("edit-boletin-file").value,
     };
 
-    if (dataset.foto == "") {
-      dataset.foto = document.getElementById("foto-name").value;
+    if (dataset.imagen == "") {
+      dataset.imagen = document.getElementById("edit-img").value;
     } else {
-      dataset.foto = document.getElementById("foto-file").files[0];
+      dataset.imagen = document.getElementById("edit-img-file").files[0];
+    }
+
+    if (dataset.boletin == "") {
+      dataset.boletin = document.getElementById("edit-file").value;
+    } else {
+      dataset.boletin = document.getElementById("edit-boletin-file").files[0];
     }
 
     var dataFoto;
-    if (typeof dataset.foto == "object") {
-      dataFoto = dataset.foto.name;
+    var dataBoletin;
+    if (typeof dataset.imagen == "object") {
+      dataFoto = dataset.imagen.name;
     } else {
-      dataFoto = dataset.foto;
+      dataFoto = dataset.imagen;
+    }
+
+    if (typeof dataset.boletin == "object") {
+      dataBoletin = dataset.boletin.name;
+    } else {
+      dataBoletin = dataset.boletin;
     }
     $.ajax({
       method: "POST",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: {
         action: "update",
         id: dataset.id,
-        titular: dataset.titular,
-        slug: dataset.slug,
-        foto: dataFoto,
-        contenido: dataset.contenido,
-        autor: dataset.autor,
+        nombre: dataset.nombre,
+        imagen: dataFoto,
+        boletin: dataBoletin,
       },
     }).done(function (msg) {
-      messagesClient.updateImageNews(dataset.id, dataset.foto);
+      messagesClient.updateImageBoletin(dataset.imagen);
+      messagesClient.updateBoletin(dataset.boletin);
       if (msg.length == 0) {
-        alert("Noticia Actualizada");
+        alert("Boletin Actualizado");
         window.location.reload();
       } else {
         alert("Error actualizando la noticia, por favor intentar más tarde");
@@ -305,39 +347,31 @@ var messagesUIManager = {
   },
   addNews: function () {
     if (
-      document.getElementById("createTitular").value.trim().length === 0 ||
-      document.getElementById("createSlug").value.trim().length === 0 ||
+      document.getElementById("createNombre").value.trim().length === 0 ||
       document.getElementById("createFoto-name").value.trim().length === 0 ||
-      document.getElementById("createAutor").value.trim().length === 0
+      document.getElementById("createBoletin-name").value.trim().length === 0
     ) {
       alert("Debes completar los campos para continuar");
       return false;
     }
-    if ($("#contenidoCreate .ql-editor")[0].innerHTML == "<p><br></p>") {
-      alert("Debes completar el campo de contenido para continuar");
-      return false;
-    }
     let dataset = {
-      titular: document.getElementById("createTitular").value,
-      slug: document.getElementById("createSlug").value,
-      foto: document.getElementById("createFoto-file").files[0],
-      contenido: $("#contenidoCreate .ql-editor")[0].innerHTML,
-      autor: document.getElementById("createAutor").value,
+      nombre: document.getElementById("createNombre").value,
+      imagen: document.getElementById("createFoto-file").files[0],
+      boletin: document.getElementById("createBoletin-file").files[0],
     };
     $.ajax({
       method: "POST",
-      url: application.service_url + "noticias.php",
+      url: application.service_url + "boletines.php",
       data: {
         action: "create",
-        titular: dataset.titular,
-        slug: dataset.slug,
-        foto: dataset.foto.name,
-        contenido: dataset.contenido,
-        autor: dataset.autor,
+        nombre: dataset.nombre,
+        imagen: dataset.imagen.name,
+        boletin: dataset.boletin.name,
       },
     }).done(function (msg) {
-      messagesClient.updateImageNews(dataset.id, dataset.foto);
-      alert("Noticia creada");
+      messagesClient.updateImageBoletin(dataset.imagen);
+      messagesClient.updateBoletin(dataset.boletin);
+      alert("Boletin creado");
       window.location.reload();
     });
   },
