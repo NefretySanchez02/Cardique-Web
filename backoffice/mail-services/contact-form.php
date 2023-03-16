@@ -1,13 +1,13 @@
 <?php
-require 'phpmailer/Exception.php';
-require 'phpmailer/PHPMailer.php';
-require 'phpmailer/SMTP.php';
+require '../../phpmailer/Exception.php';
+require '../../phpmailer/PHPMailer.php';
+require '../../phpmailer/SMTP.php';
 
-$name 	= isset( $_POST['name'] ) ? $_POST['name'] : '';
-$email_person 	= isset( $_POST['email'] ) ? $_POST['email'] : '';
-$phone 	= isset( $_POST['phone'] ) ? $_POST['phone'] : '';
-$asunto	= isset( $_POST['subject'] ) ? $_POST['subject'] : '';
-$comment= isset( $_POST['message'] ) ? $_POST['message'] : '';
+$name = $_REQUEST['name'];
+$email_person = $_REQUEST['email'];
+$phone = $_REQUEST['phone'];
+$asunto = $_REQUEST['subject'];
+$comment = $_REQUEST['message'];
 
 $message = '
 		<html>
@@ -38,7 +38,7 @@ $message = '
 		</tr>
 		<tr>
 		<td align="right" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 5px 7px 0;">Mensaje:</td>
-		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . nl2br( $comment ) . '</td>
+		<td align="left" valign="top" style="border-top:1px solid #dfdfdf; border-bottom:1px solid #dfdfdf; font-family:Arial, Helvetica, sans-serif; font-size:13px; color:#000; padding:7px 0 7px 5px;">' . nl2br($comment) . '</td>
 		</tr>
 		</table>
 		</body>
@@ -53,20 +53,10 @@ $mail->isHTML(true);
 $mail->Subject = "Formulario de Contacto";
 $mail->Body = $message;
 
-if(!$mail->send()) 
-{
-    echo '<script>
-					window.location = "contact.html";
-					alert("Error enviando mensaje, Por favor intente mas tarde")
-				</script>';
-} 
-else 
-{
-    echo '<script>
-						window.location = "contact.html";
-						alert("Mensaje enviado")
-					</script>';
+if (!$mail->send()) {
+	echo 'Message could not be sent.';
+} else {
+	echo '1';
 }
 
 ?>
-
