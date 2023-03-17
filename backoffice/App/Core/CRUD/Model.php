@@ -330,6 +330,35 @@ class Model
         }
     }
 
+    protected static function generateInsertManyQuerys($bd_table, $fields_array)
+    {
+        $sql_query = "INSERT INTO `" . $bd_table . "`(";
+
+        $fields_count = count($fields_array);
+        for ($f = 0; $f < $fields_count; $f++) {
+            $sql_query .= ($f == $fields_count - 1) ? "`" . $fields_array[$f]["field"] . "`" : "`" . $fields_array[$f]["field"] . "`,";
+        }
+
+        $sql_query .= ") VALUES (";
+
+        for ($f = 0; $f < $fields_count; $f++) {
+            $sql_query .= ($f == $fields_count - 1) ? "'" . $fields_array[$f]["value"] . "'" : "'" . $fields_array[$f]["value"] . "',";
+        }
+
+        $sql_query .= ");";
+
+        try {
+            $connection = Database::instance();
+            $query = $connection->prepare($sql_query);
+            $query->setFetchMode(\PDO::FETCH_ASSOC);
+            $success_flag = $query->execute();
+            return ($success_flag) ? $query->rowCount() : false;
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage();
+            return false;
+        }
+    }
+
     protected static function generateUpdateQuery($bd_table, $fields_array)
     {
         $sql_query = "UPDATE `" . $bd_table . "` SET ";
@@ -412,6 +441,22 @@ class Model
     protected static function generateListForColumn($bd_table, $forDelete_label, $value)
     {
         $sql_query = "SELECT * FROM `" . $bd_table . "` WHERE `" . $forDelete_label . "`='$value'";
+        try {
+            $connection = Database::instance();
+            $query = $connection->prepare($sql_query);
+            $query->setFetchMode(\PDO::FETCH_ASSOC);
+            // Ejecuta la consulta
+            $success_flag = $query->execute();
+            return $query->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage();
+            return false;
+        }
+    }
+
+    protected static function generateListImageForIdMap($bd_table, $forDelete_label, $value)
+    {
+        $sql_query = "SELECT * FROM `" . $bd_table . "` WHERE `" . $forDelete_label . "`='$value' ORDER BY id DESC LIMIT 5";
         try {
             $connection = Database::instance();
             $query = $connection->prepare($sql_query);

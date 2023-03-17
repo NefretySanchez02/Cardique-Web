@@ -23,6 +23,10 @@
   overflow: auto;
 }
 
+#view-course .modal-dialog {
+  max-width: 60%;
+}
+
 #btn_next,
 #btn_prev {
   font-weight: bold;

@@ -45,11 +45,7 @@ class Imagenes_Negocios extends Model
     public function deleteById($id)
     {
         $sql = parent::generateDeleteQuery(self::SQL_TABLE, "id", $id);
-        $params = array(
-            array("value" => $id, "type" => "INT")
-        );
-        echo $sql;
-        return parent::executeQuery($sql, $params, false);
+        return $sql;
     }
 
     public function getListType($tipo)
@@ -62,24 +58,24 @@ class Imagenes_Negocios extends Model
         return $sql;
     }
 
-    public function getListByName($title)
+    public function getByIdMapIndex($tipo)
     {
-        $sql = parent::searchList(self::SQL_TABLE, "nombre", $title);
+        $sql = parent::generateListImageForIdMap(self::SQL_TABLE, "id_Mapa", $tipo);
         $params = array(
-            array("value" => $title, "type" => "STR")
+            array("value" => $tipo, "type" => "STR")
         );
+
         return $sql;
     }
 
-    public static function updateNewsById($datap)
+    public static function updateImage($datap)
     {
         $fields_array = array(
             // array( array("field" => FIELD-NAME, "value" => FIELD-VALUE, "type" => ["INT" | "STR"] ) )
             array("field" => "id", "value" => $datap[0], "type" => "INT"),
             //Send the table id field in the first array position
-            array("field" => "nombre", "value" => $datap[1], "type" => "STR"),
-            array("field" => "imagen", "value" => $datap[2], "type" => "STR"),
-            array("field" => "boletin", "value" => $datap[3], "type" => "INT"),
+            array("field" => "imagen", "value" => $datap[1], "type" => "STR"),
+            array("field" => "id_mapa", "value" => $datap[2], "type" => "STR"),
         );
         $sql = parent::generateUpdateQuery(self::SQL_TABLE, $fields_array);
         $params = array(
@@ -89,15 +85,13 @@ class Imagenes_Negocios extends Model
         return $affected_arrows;
     }
 
-    public static function createBoletin($data)
+    public static function createImagen($data)
     {
         $fields_array = array(
-            array("field" => "nombre", "value" => $data[0], "type" => "STR"),
-            array("field" => "imagen", "value" => $data[1], "type" => "STR"),
-            array("field" => "boletin", "value" => $data[2], "type" => "INT"),
+            array("field" => "imagen", "value" => $data[0], "type" => "STR"),
+            array("field" => "id_mapa", "value" => $data[1], "type" => "STR"),
         );
-        $sql = parent::generateInsertQuery(self::SQL_TABLE, $fields_array);
-        $affected_arrows = parent::executeQuery($sql, false);
-        return $affected_arrows;
+        $sql = parent::generateInsertManyQuerys(self::SQL_TABLE, $fields_array);
+        return $sql;
     }
 }

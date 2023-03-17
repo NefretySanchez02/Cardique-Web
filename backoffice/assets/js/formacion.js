@@ -53,6 +53,25 @@ var messagesClient = {
     });
   },
 
+  getImages: function (item_id, callback) {
+    $.ajax({
+      method: "GET",
+      url: application.service_url + "imagenes_negocios.php",
+      data: {
+        action: "getByName",
+        id_mapa: item_id,
+      },
+    }).done(function (msg) {
+      application.log(msg);
+
+      let data = application.parseJson(msg);
+
+      if (data.success == 1) {
+        callback(data.news_item);
+      }
+    });
+  },
+
   /**
    * Editar una noticia en la BD
    */
@@ -78,6 +97,38 @@ var messagesClient = {
     }
 
     /*  */
+  },
+
+  createImages: function (foto) {
+    var formData = foto;
+
+    $.ajax({
+      url: application.service_url + "imagenes_negocios.php",
+      type: "POST",
+      data: formData,
+      mimeType: "multipart/form-data",
+      dataType: "html",
+      contentType: false,
+      processData: false,
+      success: function (msg, textStatus, jqXHR) {
+        alert("Fotos Subidas al sistema");
+        window.location.reload();
+      },
+      error: function (jqXHR, textStatus, errorThrown) {},
+    });
+    /*  */
+  },
+
+  deleteImgs: function (item_id, name, callback) {
+    $.ajax({
+      method: "POST",
+      url: application.service_url + "imagenes_negocios.php",
+      data: {
+        action: "delete",
+        id_item: item_id,
+        name_img: name,
+      },
+    }).done(function (msg) {});
   },
 };
 
@@ -173,8 +224,9 @@ var messagesUIManager = {
     if (!id) {
       return false;
     }
-
+    let wrapper = document.getElementById("imgs-wrapper");
     messagesClient.get(id, function (data) {
+      var id_mapa = data.id_Mapa;
       var url_img = ` <img src='assets/img/logos_negocios/${data.foto}'  />`;
       var url_link = `<a href="${data.link_ubicacion}" target="_blank">Google Maps</a>`;
       var url_face = `<a href="${data.facebook}" target="_blank">Facebook</a>`;
@@ -194,6 +246,26 @@ var messagesUIManager = {
       document.getElementById("item-whatsapp").innerHTML = url_wpp;
       document.getElementById("item-email").innerHTML = data.mail;
       document.getElementById("item-web").innerHTML = url_web;
+      messagesClient.getImages(id_mapa, function (info) {
+        let messages = info;
+        messages.forEach(function (data) {
+          let id = data.id;
+          let img = data.imagen;
+          let itemHtml = /*html*/ `        
+              <td>
+                <img src="assets/img/img_negocios/${img}" style="width: 200px;"/>
+              </td>
+              <td>
+                <a class="text-info hover-effect" onclick="messagesUIManager.viewModalDelete('${id}', '${img}')">
+                <i class="material-icons">do_not_disturb_alt</i>
+              </a>
+            </td>
+          `;
+          let tr = document.createElement("tr");
+          tr.innerHTML = itemHtml;
+          wrapper.appendChild(tr);
+        });
+      });
       document.getElementById("view-course").classList.add("d-block");
     });
   },
@@ -235,8 +307,34 @@ var messagesUIManager = {
       inputMail.val(data.mail);
       var inputWeb = $("#web");
       inputWeb.val(data.web);
+      var inputIdMap = $("#id_mapa");
+      inputIdMap.val(data.id_Mapa);
       document.getElementById("message-datail").classList.add("d-block");
     });
+  },
+
+  removeItem: function () {
+    if (!localStorage.getItem("id_img_delete")) {
+      return false;
+    }
+    if (!localStorage.getItem("name_img_delete")) {
+      return false;
+    }
+    let id_new = localStorage.getItem("id_img_delete");
+    let name_img = localStorage.getItem("name_img_delete");
+
+    messagesClient.deleteImgs(id_new, name_img, function (data) {});
+    window.location.reload();
+  },
+
+  viewModalDelete: function (id, name) {
+    if (!id) {
+      return false;
+    }
+    messagesUIManager.hideItemViewModal();
+    document.getElementById("delete-img").classList.add("d-block");
+    localStorage.setItem("id_img_delete", id);
+    localStorage.setItem("name_img_delete", name);
   },
 
   /**
@@ -250,6 +348,10 @@ var messagesUIManager = {
   },
   hideItemViewModal: function (id) {
     document.getElementById("view-course").classList.remove("d-block");
+    document.getElementById("imgs-wrapper").innerHTML = "";
+  },
+  hideItemDeleteModal: function (id) {
+    document.getElementById("delete-img").classList.remove("d-block");
   },
   updateNews: function () {
     let dataset = {
@@ -309,6 +411,26 @@ var messagesUIManager = {
       }
     });
   },
+
+  //Funciones para la carga de imagenes
+  createImgs: function () {
+    var form_data = new FormData();
+    var totalfiles = document.getElementById("img-files").files.length;
+    var id_mapa = document.getElementById("id_mapa").value;
+    if (totalfiles > 5) {
+      alert("Solo se pueden subir maximo 5 fotos al sistema por negocio");
+      return false;
+    }
+    for (var index = 0; index < totalfiles; index++) {
+      form_data.append(
+        "files[]",
+        document.getElementById("img-files").files[index]
+      );
+    }
+    form_data.append("action", "create");
+    form_data.append("id_mapa", id_mapa);
+    messagesClient.createImages(form_data);
+  },
 };
 
 $(".form-file-simple .inputFileVisible").click(function () {
@@ -320,6 +442,25 @@ $(".form-file-simple .inputFileHidden").change(function () {
     .val()
     .replace(/C:\\fakepath\\/i, "");
   $(this).siblings(".inputFileVisible").val(filename);
+});
+
+$(
+  ".form-file-multiple .inputFileVisible, .form-file-multiple .input-group-btn"
+).click(function () {
+  $(this).parent().parent().find(".inputFileHidden").trigger("click");
+  $(this).parent().parent().addClass("is-focused");
+});
+
+$(".form-file-multiple .inputFileHidden").change(function () {
+  var names = "";
+  for (var i = 0; i < $(this).get(0).files.length; ++i) {
+    if (i < $(this).get(0).files.length - 1) {
+      names += $(this).get(0).files.item(i).name + ",";
+    } else {
+      names += $(this).get(0).files.item(i).name;
+    }
+  }
+  $(this).siblings(".input-group").find(".inputFileVisible").val(names);
 });
 
 function prevPage() {

@@ -34,6 +34,22 @@ var newsClientCourse = {
       }
     });
   },
+
+  getImage: function (id, callback) {
+    $.ajax({
+      method: "GET",
+      url: application.service_url + "imagenes_negocios.php",
+      data: {
+        action: "list",
+        id_mapa: id,
+      },
+    }).done(function (msg) {
+      let data = application.parseJson(msg);
+      if (data.success == 1) {
+        callback(data.news_item);
+      }
+    });
+  },
 };
 
 /**
@@ -97,12 +113,7 @@ var messagesUIManagerCourse = {
           </div>
           <div class="services">
             <h2>Nuestros productos/Servicios</h2>
-            <div class="services-images">
-              <div class="service-block-img"></div>
-              <div class="service-block-img"></div>
-              <div class="service-block-img"></div>
-              <div class="service-block-img"></div>
-              <div class="service-block-img"></div>
+            <div class="services-images" id="wrapper-imgs">
             </div>
           </div>
           <div class="directory-footer">
@@ -141,6 +152,23 @@ var messagesUIManagerCourse = {
           </div>
         </div>`;
       wrapper.innerHTML = itemHTML;
+      newsClientCourse.getImage(data[0].id_Mapa, function (img) {
+        let div_img = document.getElementById("wrapper-imgs");
+        if (img.length == 0) {
+          document.getElementsByClassName("services")[0].style.display = 'none'
+        } else {
+          img.forEach(function (info) {
+            let img = info.imagen;
+            let itemHtml = /*html*/ `        
+                <img src="backoffice/assets/img/img_negocios/${img}" />
+            `;
+            let tr = document.createElement("div");
+            tr.setAttribute("class", "service-block-img");
+            tr.innerHTML = itemHtml;
+            div_img.appendChild(tr);
+          });
+        }
+      });
       document.getElementById("list-business").classList.add("d-block");
     });
   },

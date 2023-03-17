@@ -68,7 +68,6 @@ session_control();
                 </div>
               </div>
             </div>
-
           </div>
 
           <div id="message-datail" class="modal" tabindex="-1" role="dialog">
@@ -177,10 +176,52 @@ session_control();
                       </div>
                     </div>
                   </form>
+                  <form class="mb-4" method="post" action="javascript:void(0);" enctype="multipart/form-data">
+                    <input id="id_mapa" type="text" class="d-none" />
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group bmd-form-group form-file-upload form-file-multiple">
+                          <label class="text-info"><strong>Imagenes de los productos/servicios:</strong></label>
+                          <input id="img-files" type="file" multiple="" class="inputFileHidden"
+                            accept="image/png, image/jpg, image/jpeg">
+                          <div class="input-group">
+                            <input id="img-files-name" type="text" class="form-control inputFileVisible" multiple
+                              required>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="submit-button" class="col-md-12">
+                        <button class="btn btn-info" type="buttom" onclick="messagesUIManager.createImgs()">
+                          <span>Subir Fotos</span>
+                        </button>
+                      </div>
+                    </div>
+                  </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary"
                     onclick="messagesUIManager.hideItemUpdateModal()">Cerrar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="delete-img" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 id="item-message-subject" class="modal-title">Eliminar Imagen</h5>
+                  <button type="button" class="close" onclick="messagesUIManager.hideItemDeleteModal()">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>¿Desea eliminar la imagen?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger" onclick="messagesUIManager.removeItem()">Aceptar</button>
+                  <button type="button" class="btn btn-info"
+                    onclick="messagesUIManager.hideItemDeleteModal()">Cancelar</button>
                 </div>
               </div>
             </div>
@@ -235,6 +276,24 @@ session_control();
                   <label class="d-block">
                     <strong class="text-info">Pagina Web:</strong> <span id="item-web"></span>
                   </label>
+                  <div class="card">
+                    <div class="card-header card-header-info">
+                      <h4 class="card-title ">Imagenes del Producto/Servicio</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class=" text-info">
+                            <th class="text-left">Imagen</th>
+                            <th class="text-left">Opciones</th>
+                          </thead>
+                          <tbody id="imgs-wrapper">
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary"

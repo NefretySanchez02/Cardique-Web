@@ -6,7 +6,7 @@ error_reporting(0);
 use App\Core\CRUD\Imagenes_Negocios;
 use App\Core\Box\Tools;
 
-require_once '../App/Core/CRUD/Imagenes_Negocios.php';
+require_once '../App/Core/CRUD/Imagenes-Negocios.php';
 //require_once '../App/BlackBox/uploader/RSFileUploader.php';
 //require_once '../Core/Box/Tools.php';
 
@@ -24,10 +24,6 @@ if ($_GET['action'] == "list") {
     getByName();
 } else if ($_POST['action'] == "create") {
     create();
-} else if ($_POST['action'] == "updatePhoto") {
-    updateImage();
-} else if ($_POST['action'] == "updateFile") {
-    updateFile();
 } else if ($_POST['action'] == "delete") {
     delete();
 } else if ($_POST['action'] == "update") {
@@ -41,13 +37,19 @@ if ($_GET['action'] == "list") {
 function listItems()
 {
     $newsManager = new Imagenes_Negocios();
-    $newsItem_list = $newsManager->find(array("sort" => array("id" => "ASC")));
-    print_r($newsItem_list);
+    $title = filter_input(INPUT_GET, "id_mapa", FILTER_SANITIZE_STRING);
+    if (empty($title))
+        die(json_encode(array("success" => 0, "error_msg" => "id_map param has and invalid value")));
+
+    $newsItem = $newsManager->getByIdMapIndex($title);
+    if (!$newsItem) {
+
+    }
 
     $response = array();
 
     $response["success"] = 1;
-    $response["messages"] = $newsItem_list;
+    $response["news_item"] = $newsItem;
 
     echo json_encode($response);
 }
@@ -58,7 +60,7 @@ function getByName()
 
     $title = filter_input(INPUT_GET, "id_mapa", FILTER_SANITIZE_STRING);
     if (empty($title))
-        die(json_encode(array("success" => 0, "error_msg" => "slug param has and invalid value")));
+        die(json_encode(array("success" => 0, "error_msg" => "id_map param has and invalid value")));
 
     $newsItem = $newsManager->getListType($title);
     if (!$newsItem) {
@@ -135,6 +137,51 @@ function updateFile()
 
 }
 
+function insert($name, $id)
+{
+    $serviceManager = new Imagenes_Negocios();
+    $service_data[0] = $name;
+    $service_data[1] = $id;
+    $qres = $serviceManager->createImagen($service_data);
+    $response = array();
+    if ($qres) {
+        $response["success"] = 1;
+        $response["data"] = "Register could be updated";
+    } else {
+        $response["success"] = 0;
+        $response["error"] = "Register couldn't be updated";
+    }
+
+    echo json_encode($response);
+}
+
+function create()
+{
+    $target_dir = "../assets/img/img_negocios/";
+    $countfiles = count($_FILES['files']['name']);
+    $id_map = $_POST['id_mapa'];
+    $files_arr = array();
+
+    for ($index = 0; $index < $countfiles; $index++) {
+        $filename = $_FILES['files']['name'][$index];
+        $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
+        $valid_ext = array("png", "jpeg", "jpg");
+        if (in_array($ext, $valid_ext)) {
+            $path = $target_dir . $filename;
+            if (move_uploaded_file($_FILES['files']['tmp_name'][$index], $path)) {
+                echo "File upload";
+            } else {
+                echo "Sorry, there was an error uploading your file.";
+            }
+        }
+    }
+
+    for ($index = 0; $index < $countfiles; $index++) {
+        $filename = $_FILES['files']['name'][$index];
+        insert($filename, $id_map);
+    }
+}
+
 function update()
 {
 
@@ -161,30 +208,19 @@ function update()
 function delete()
 {
     $service_id = filter_input(INPUT_POST, 'id_item', FILTER_SANITIZE_NUMBER_INT);
+    $service_name = filter_input(INPUT_POST, 'name_img', FILTER_SANITIZE_STRING);
+    $target_dir = "../assets/img/img_negocios/";
+    $target_file = $target_dir . $service_name;
     $serviceManager = new Imagenes_Negocios();
     $qres = $serviceManager->deleteById($service_id);
-    $response = array();
-    $response["success"] = 1;
-    echo json_encode($response);
-}
-
-function create()
-{
-    $serviceManager = new Imagenes_Negocios();
-    $messaje = array();
-    $service_data[0] = filter_input(INPUT_POST, 'nombre', FILTER_SANITIZE_STRING);
-    $service_data[1] = filter_input(INPUT_POST, 'imagen', FILTER_SANITIZE_STRING);
-    $service_data[2] = filter_input(INPUT_POST, 'boletin', FILTER_SANITIZE_STRING);
-    $qres = $serviceManager->createBoletin($service_data);
-
-    $response = array();
-    if ($qres) {
-        $response["success"] = 1;
-        $response["data"] = "Register could be updated";
+    print($target_file);
+    if (!unlink($target_file)) {
+        echo "Error delete image in folder";
     } else {
-        $response["success"] = 0;
-        $response["error"] = "Register couldn't be updated";
+        echo "Delete Image";
     }
 
+    $response = array();
+    $response["success"] = 1;
     echo json_encode($response);
 }
