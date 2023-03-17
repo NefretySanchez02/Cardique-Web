@@ -22,6 +22,8 @@ if ($_GET['action'] == "list") {
     get();
 } else if ($_GET['action'] == "getByName") {
     getByName();
+} else if ($_GET['action'] == "listCategory") {
+    getRecentsWithoutSlug();
 } else if ($_POST['action'] == "updateImage") {
     updateImage();
 } else if ($_POST['action'] == "update") {
@@ -85,6 +87,35 @@ function get()
 
     $response["success"] = 1;
     $response["news_item"] = $newsItem;
+    //$response["services_count"] = count($servicios);
+
+    echo json_encode($response);
+}
+
+function getRecentsWithoutSlug()
+{
+    $newsManager = new Negocios();
+
+    $slug = filter_input(INPUT_GET, "id_mapa", FILTER_SANITIZE_STRING);
+    if (empty($slug))
+        die(json_encode(array("success" => 0, "error_msg" => "id_mapa param has and invalid value")));
+
+    $newsItem = $newsManager->getListByCategory($slug);
+    $response = array();
+    $news = array();
+    foreach ($newsItem as $serv) {
+        $servicio_data = array();
+        $servicio_data['id_Mapa'] = $serv["id_Mapa"];
+        $news[] = $servicio_data;
+    }
+
+    if (!$newsItem) {
+
+    }
+
+
+    $response["success"] = 1;
+    $response["news_item"] = $news;
     //$response["services_count"] = count($servicios);
 
     echo json_encode($response);

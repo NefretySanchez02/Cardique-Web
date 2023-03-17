@@ -62,6 +62,15 @@ class Negocios extends Model
         return $sql;
     }
 
+    public function getListByCategory($slug)
+    {
+        $sql = parent::generateIdMapsCategory(self::SQL_TABLE, "categoria", $slug);
+        $params = array(
+            array("value" => $slug, "type" => "STR")
+        );
+        return $sql;
+    }
+
     public function getListByName($title)
     {
         $sql = parent::searchList(self::SQL_TABLE, "nombre", $title);

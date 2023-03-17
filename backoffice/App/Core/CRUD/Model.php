@@ -437,6 +437,22 @@ class Model
         }
     }
 
+    protected static function generateIdMapsCategory($bd_table, $forDelete_label, $value)
+    {
+        $sql_query = "SELECT * FROM `" . $bd_table . "` WHERE `" . $forDelete_label . "` NOt IN('$value')";
+        try {
+            $connection = Database::instance();
+            $query = $connection->prepare($sql_query);
+            $query->setFetchMode(\PDO::FETCH_ASSOC);
+            // Ejecuta la consulta
+            $success_flag = $query->execute();
+            return $query->fetchAll();
+        } catch (\PDOException $e) {
+            print "Error!: " . $e->getMessage();
+            return false;
+        }
+    }
+
 
     protected static function generateListForColumn($bd_table, $forDelete_label, $value)
     {

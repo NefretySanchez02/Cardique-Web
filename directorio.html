@@ -182,7 +182,6 @@
         </div>
       </section>
       <!-- banner-section end -->
-
       <section class="shop-page-section directory-page-section">
         <div class="auto-container">
           <div class="inner-container">
@@ -191,15 +190,14 @@
             >
               <div class="shop-sidebar">
                 <div class="sidebar-search">
-                  <form class="search-form">
+                  <form class="search-form" action="javascript:void(0);">
                     <div class="form-group">
                       <input
                         type="search"
                         name="search-field"
                         placeholder="Escribe aquí"
-                        required=""
-                        id="myInput"
-                        onkeyup="myFunction()"
+                        id="inputSearch"
+                        onkeyup="messagesUIManagerCourse.drawSearchItems()"
                       />
                     </div>
                   </form>
@@ -218,11 +216,22 @@
                   Categoría <i class="fa fa-chevron-circle-right"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#"
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawCategoryItems('Bioproductos y servicios sostenibles')"
                     >Bioproductos y <br />servicios sostenibles</a
                   >
-                  <a class="dropdown-item" href="#">Acción climatica</a>
-                  <a class="dropdown-item" href="#"
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawCategoryItems('Acción climatica')"
+                    >Acción climatica</a
+                  >
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawCategoryItems('Ecoproductos Industriales')"
                     >Ecoproductos Industriales</a
                   >
                 </div>
@@ -239,12 +248,30 @@
                   Zona <i class="fa fa-chevron-circle-right"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Todos</a>
-                  <a class="dropdown-item" href="#">Zona norte</a>
-                  <a class="dropdown-item" href="#"
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawZonaItems('Todos')"
+                    >Todos</a
+                  >
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawZonaItems('Norte')"
+                    >Zona norte</a
+                  >
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawZonaItems('Montes de Maria')"
                     >Ecorregión Montes de María</a
                   >
-                  <a class="dropdown-item" href="#">Canal del Dique</a>
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawZonaItems('Canal del Dique')"
+                    >Canal del Dique</a
+                  >
                 </div>
               </div>
               <div class="dropdown dropdown-map">
@@ -259,10 +286,23 @@
                   Ubicación <i class="fa fa-chevron-circle-right"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Cartagena</a>
-                  <a class="dropdown-item" href="#">San Juna Nepobuceno</a>
-                  <a class="dropdown-item" href="#"
-                    >Ecoproductos Industriales</a
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawUbicacionItems('Cartagena')"
+                    >Cartagena</a
+                  >
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawUbicacionItems('San Juan')"
+                    >San Juna Nepobuceno</a
+                  >
+                  <a
+                    role="button"
+                    class="dropdown-item"
+                    onclick="messagesUIManagerCourse.drawUbicacionItems('San Jacinto')"
+                    >San Jacinto</a
                   >
                 </div>
               </div>
@@ -2893,7 +2933,6 @@
                         <a href="contact.html" class="theme-btn-one"
                           >Enviar mensaje</a
                         >
-                        
                       </div>
                     </div>
                   </div>
@@ -2973,22 +3012,27 @@
       </section>
       <!-- testimonial-section end -->
 
-      <div id="list-business" class="modal view-item-directory" tabindex="-1" role="dialog">
+      <div
+        id="list-business"
+        class="modal view-item-directory"
+        tabindex="-1"
+        role="dialog"
+      >
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" onclick="remove_modal()">
-                <span aria-hidden="true"><span >
-                  <img
-                    src="assets/images/img_cardique/Grupo 4162.png"
-                    alt=""
-                  />
-                </span>Cerrar</span>
+                <span aria-hidden="true"
+                  ><span>
+                    <img
+                      src="assets/images/img_cardique/Grupo 4162.png"
+                      alt=""
+                    /> </span
+                  >Cerrar</span
+                >
               </button>
             </div>
-            <div class="modal-body" id="view-item">
-              
-            </div>
+            <div class="modal-body" id="view-item"></div>
           </div>
         </div>
       </div>

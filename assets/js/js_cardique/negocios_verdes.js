@@ -9,13 +9,16 @@ var newsClientCourse = {
   /**
    * Obtiene mediante consulta un arreglo con todos los mensajes en BD
    */
-  list: function (indexPageFlag = false) {
+  list: function (callback) {
     $.ajax({
       method: "GET",
       url: application.service_url + "negocios_verdes.php",
       data: { action: "list" },
     }).done(function (msg) {
-      //   let data = application.parseJson(msg);
+      let data = application.parseJson(msg);
+      if (data.success == 1) {
+        callback(data.messages);
+      }
     });
   },
 
@@ -155,7 +158,7 @@ var messagesUIManagerCourse = {
       newsClientCourse.getImage(data[0].id_Mapa, function (img) {
         let div_img = document.getElementById("wrapper-imgs");
         if (img.length == 0) {
-          document.getElementsByClassName("services")[0].style.display = 'none'
+          document.getElementsByClassName("services")[0].style.display = "none";
         } else {
           img.forEach(function (info) {
             let img = info.imagen;
@@ -170,6 +173,71 @@ var messagesUIManagerCourse = {
         }
       });
       document.getElementById("list-business").classList.add("d-block");
+    });
+  },
+
+  drawCategoryItems: function (id) {
+    newsClientCourse.list(function (item) {
+      item.forEach(function (map) {
+        let item_map = map.id_Mapa;
+        let categoria = map.categoria;
+        if (document.getElementById(item_map)) {
+          if (categoria === id) {
+            document.getElementById(item_map).style.display = "block";
+          } else {
+            document.getElementById(item_map).style.display = "none";
+          }
+        }
+      });
+    });
+  },
+
+  drawZonaItems: function (id) {
+    newsClientCourse.list(function (item) {
+      item.forEach(function (map) {
+        let item_map = map.id_Mapa;
+        let zona = map.zona;
+        if (document.getElementById(item_map)) {
+          if (id == "Todos") {
+            document.getElementById(item_map).style.display = "block";
+          } else if (zona === id) {
+            document.getElementById(item_map).style.display = "block";
+          } else {
+            document.getElementById(item_map).style.display = "none";
+          }
+        }
+      });
+    });
+  },
+  drawUbicacionItems: function (id) {
+    newsClientCourse.list(function (item) {
+      item.forEach(function (map) {
+        let item_map = map.id_Mapa;
+        let ubicacion = map.ubicacion;
+        if (document.getElementById(item_map)) {
+          if (ubicacion.includes(id)) {
+            document.getElementById(item_map).style.display = "block";
+          } else {
+            document.getElementById(item_map).style.display = "none";
+          }
+        }
+      });
+    });
+  },
+  drawSearchItems: function () {
+    let id = document.getElementById("inputSearch").value;
+    newsClientCourse.list(function (item) {
+      item.forEach(function (map) {
+        let item_map = map.id_Mapa;
+        let nombre = map.nombre;
+        if (document.getElementById(item_map)) {
+          if (nombre.toLowerCase().includes(id) || nombre.includes(id)) {
+            document.getElementById(item_map).style.display = "block";
+          } else {
+            document.getElementById(item_map).style.display = "none";
+          }
+        }
+      });
     });
   },
 };
